@@ -1,58 +1,57 @@
+import Link from "next/link";
+
 const menuItems = [
   {
     icon: "🏠",
     label: "Dashboard",
-    active: true,
+    href: "/",
   },
   {
     icon: "👥",
     label: "Elenco",
-    active: false,
+    href: "/squad",
   },
   {
     icon: "🏟",
     label: "Clube",
-    active: false,
+    href: "/club",
   },
   {
     icon: "🗓",
     label: "Jogos",
-    active: false,
+    href: "/matches",
   },
   {
     icon: "🎯",
     label: "Objetivos",
-    active: false,
+    href: "/objectives",
   },
 ];
 
 export function Sidebar() {
   return (
-    <aside className="hidden w-64 shrink-0 border-r border-slate-800 bg-slate-900 p-6 md:block">
+    <aside className="hidden w-64 shrink-0 flex-col border-r border-slate-800 bg-slate-900 p-6 md:flex">
       <div className="mb-10">
-        <h1 className="text-xl font-bold text-center">
+        <h1 className="text-xl font-bold">
           ⚽ FM Manager Hub
         </h1>
 
-        <p className="mt-1 text-sm text-slate-400 text-center">
-          Gerencie sua carreira no FM
+        <p className="mt-1 text-sm text-slate-400">
+          Gerencie sua carreira
         </p>
       </div>
 
       <nav className="space-y-2">
         {menuItems.map((item) => (
-          <button
+          <Link
             key={item.label}
-            className={`w-full rounded-lg px-4 py-3 text-left transition ${
-              item.active
-                ? "bg-slate-800 font-medium text-white"
-                : "text-slate-400 hover:bg-slate-800 hover:text-white"
-            }`}
+            href={item.href}
+            className="block w-full rounded-lg px-4 py-3 text-left text-slate-400 transition hover:bg-slate-800 hover:text-white"
           >
             <span className="mr-3">{item.icon}</span>
 
             {item.label}
-          </button>
+          </Link>
         ))}
       </nav>
 
