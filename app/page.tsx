@@ -1,3 +1,5 @@
+import { Sidebar } from "@/components/layout/Sidebar";
+
 const stats = [
   { label: "Jogos", value: "24" },
   { label: "Vitórias", value: "12" },
@@ -42,34 +44,7 @@ export default function Home() {
   return (
     <main className="min-h-screen bg-slate-950 text-white">
       <div className="flex min-h-screen">
-        {/* Sidebar */}
-        <aside className="hidden w-64 border-r border-slate-800 bg-slate-900 p-6 md:block">
-          <h1 className="mb-10 text-xl font-bold">
-            ⚽ FM Manager Hub
-          </h1>
-
-          <nav className="space-y-2">
-            <button className="w-full rounded-lg bg-slate-800 px-4 py-3 text-left">
-              🏠 Dashboard
-            </button>
-
-            <button className="w-full rounded-lg px-4 py-3 text-left hover:bg-slate-800">
-              👥 Elenco
-            </button>
-
-            <button className="w-full rounded-lg px-4 py-3 text-left hover:bg-slate-800">
-              🏟 Clube
-            </button>
-
-            <button className="w-full rounded-lg px-4 py-3 text-left hover:bg-slate-800">
-              🗓 Jogos
-            </button>
-
-            <button className="w-full rounded-lg px-4 py-3 text-left hover:bg-slate-800">
-              🎯 Objetivos
-            </button>
-          </nav>
-        </aside>
+        <Sidebar />
 
         {/* Conteúdo */}
         <section className="flex-1 p-6 md:p-10">
