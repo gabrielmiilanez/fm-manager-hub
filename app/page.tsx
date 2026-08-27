@@ -1,4 +1,4 @@
-import { Sidebar } from "@/components/layout/Sidebar";
+import { AppShell } from "@/components/layout/AppShell";
 
 const stats = [
   { label: "Jogos", value: "24" },
@@ -42,12 +42,8 @@ const alerts = [
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-slate-950 text-white">
-      <div className="flex min-h-screen">
-        <Sidebar />
-
-        {/* Conteúdo */}
-        <section className="flex-1 p-6 md:p-10">
+    <AppShell>
+      <section className="flex-1 p-6 md:p-10">
           {/* Header */}
           <header className="mb-10 flex flex-col justify-between gap-4 md:flex-row md:items-center">
             <div>
@@ -147,7 +143,7 @@ export default function Home() {
             </section>
           </div>
         </section>
-      </div>
-    </main>
+    </AppShell>
   );
 }
+
