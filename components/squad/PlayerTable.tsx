@@ -2,10 +2,12 @@ import { Player } from "@/app/types/player";
 
 interface PlayerTableProps {
   players: Player[];
+  onPlayerClick: (player: Player) => void;
 }
 
 export function PlayerTable({
   players,
+  onPlayerClick,
 }: PlayerTableProps) {
   function getStatusStyle(status: Player["status"]) {
     switch (status) {
@@ -59,9 +61,10 @@ export function PlayerTable({
             {players.map((player) => (
               <tr
                 key={player.id}
-                className="border-b border-slate-800 transition hover:bg-slate-800/50 last:border-0"
+                onClick={() => onPlayerClick(player)}
+                className="cursor-pointer border-b border-slate-800 transition hover:bg-slate-800/50 last:border-0"
               >
-                <td className="px-6 py-4 font-medium">
+                <td className="px-6 py-4 font-medium text-white">
                   {player.name}
                 </td>
 

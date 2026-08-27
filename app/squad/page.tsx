@@ -5,6 +5,7 @@ import { AppShell } from "@/components/layout/AppShell";
 import { PlayerTable } from "@/components/squad/PlayerTable";
 import { SquadFilters } from "@/components/squad/SquadFilters";
 import { PlayerForm } from "@/components/squad/PlayerForm";
+import { PlayerDetailsModal } from "@/components/squad/PlayerDetailsModal";
 import { Player } from "@/types/player";
 
 const initialPlayers: Player[] = [
@@ -65,16 +66,15 @@ const initialPlayers: Player[] = [
 ];
 
 export default function SquadPage() {
-  const [players, setPlayers] =
-    useState<Player[]>(initialPlayers);
+  const [players, setPlayers] = useState<Player[]>(initialPlayers);
 
   const [search, setSearch] = useState("");
 
-  const [positionFilter, setPositionFilter] =
-    useState("Todos");
+  const [positionFilter, setPositionFilter] = useState("Todos");
 
-  const [isFormOpen, setIsFormOpen] =
-    useState(false);
+  const [isFormOpen, setIsFormOpen] = useState(false);
+
+  const [selectedPlayer, setSelectedPlayer] = useState<Player | null>(null);
 
   const filteredPlayers = players.filter((player) => {
     const matchesSearch = player.name
@@ -82,17 +82,13 @@ export default function SquadPage() {
       .includes(search.toLowerCase());
 
     const matchesPosition =
-      positionFilter === "Todos" ||
-      player.position === positionFilter;
+      positionFilter === "Todos" || player.position === positionFilter;
 
     return matchesSearch && matchesPosition;
   });
 
   function handleAddPlayer(player: Player) {
-    setPlayers((currentPlayers) => [
-      ...currentPlayers,
-      player,
-    ]);
+    setPlayers((currentPlayers) => [...currentPlayers, player]);
 
     setIsFormOpen(false);
   }
@@ -101,13 +97,9 @@ export default function SquadPage() {
     <AppShell>
       <div className="mb-10 flex flex-col justify-between gap-6 md:flex-row md:items-end">
         <div>
-          <p className="text-sm text-slate-400">
-            Gestão do time
-          </p>
+          <p className="text-sm text-slate-400">Gestão do time</p>
 
-          <h1 className="text-3xl font-bold">
-            👥 Elenco
-          </h1>
+          <h1 className="text-3xl font-bold">👥 Elenco</h1>
 
           <p className="mt-2 text-slate-400">
             Gerencie todos os jogadores da sua equipe.
@@ -129,12 +121,22 @@ export default function SquadPage() {
         onPositionChange={setPositionFilter}
       />
 
-      <PlayerTable players={filteredPlayers} />
+      <PlayerTable
+        players={filteredPlayers}
+        onPlayerClick={setSelectedPlayer}
+      />
 
       {isFormOpen && (
         <PlayerForm
           onClose={() => setIsFormOpen(false)}
           onSubmit={handleAddPlayer}
+        />
+      )}
+
+      {selectedPlayer && (
+        <PlayerDetailsModal
+          player={selectedPlayer}
+          onClose={() => setSelectedPlayer(null)}
         />
       )}
     </AppShell>
