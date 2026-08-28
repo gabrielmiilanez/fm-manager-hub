@@ -8,6 +8,7 @@ import {
 } from "@/types/player";
 
 interface PlayerFormProps {
+  player?: Player;
   onClose: () => void;
   onSubmit: (player: Player) => void;
 }
@@ -17,8 +18,13 @@ const positions = [
   "Zagueiro",
   "Lateral Direito",
   "Lateral Esquerdo",
+  "Volante",
   "Meio Campo",
+  "Meia Esquerda",
+  "Meia Direita",
   "Meio Atacante",
+  "Ponta Esquerda",
+  "Ponta Direita",
   "Atacante",
 ];
 
@@ -40,20 +46,40 @@ const statuses: PlayerStatus[] = [
 ];
 
 export function PlayerForm({
+  player,
   onClose,
   onSubmit,
 }: PlayerFormProps) {
-  const [name, setName] = useState("");
-  const [position, setPosition] = useState("PL");
-  const [age, setAge] = useState("");
+  const isEditing = Boolean(player);
+
+  const [name, setName] = useState(
+    player?.name ?? ""
+  );
+
+  const [position, setPosition] = useState(
+    player?.position ?? "PL"
+  );
+
+  const [age, setAge] = useState(
+    player?.age?.toString() ?? ""
+  );
+
   const [role, setRole] =
-    useState<PlayerRole>("Reserva");
+    useState<PlayerRole>(
+      player?.role ?? "Reserva"
+    );
 
   const [contractEnd, setContractEnd] =
-    useState("");
+    useState(
+      player?.contractEnd === "Não informado"
+        ? ""
+        : player?.contractEnd ?? ""
+    );
 
   const [status, setStatus] =
-    useState<PlayerStatus>("OK");
+    useState<PlayerStatus>(
+      player?.status ?? "OK"
+    );
 
   const [error, setError] = useState("");
 
@@ -72,8 +98,8 @@ export function PlayerForm({
       return;
     }
 
-    const newPlayer: Player = {
-      id: Date.now(),
+    const updatedPlayer: Player = {
+      id: player?.id ?? Date.now(),
       name: name.trim(),
       position,
       age: Number(age),
@@ -83,22 +109,26 @@ export function PlayerForm({
       status,
     };
 
-    onSubmit(newPlayer);
+    onSubmit(updatedPlayer);
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4">
+    <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/70 p-4">
       <div className="w-full max-w-lg rounded-xl border border-slate-700 bg-slate-900 p-6 shadow-2xl">
-        
+
         {/* Cabeçalho */}
         <div className="mb-6 flex items-start justify-between">
           <div>
             <h2 className="text-xl font-bold">
-              Novo jogador
+              {isEditing
+                ? "Editar jogador"
+                : "Novo jogador"}
             </h2>
 
             <p className="mt-1 text-sm text-slate-400">
-              Adicione um jogador ao seu elenco.
+              {isEditing
+                ? "Atualize as informações do jogador."
+                : "Adicione um jogador ao seu elenco."}
             </p>
           </div>
 
@@ -188,7 +218,9 @@ export function PlayerForm({
             <select
               value={role}
               onChange={(e) =>
-                setRole(e.target.value as PlayerRole)
+                setRole(
+                  e.target.value as PlayerRole
+                )
               }
               className="w-full rounded-lg border border-slate-700 bg-slate-950 px-4 py-3 text-white outline-none focus:border-blue-500"
             >
@@ -267,7 +299,9 @@ export function PlayerForm({
               type="submit"
               className="rounded-lg bg-blue-600 px-5 py-2 font-medium text-white transition hover:bg-blue-500"
             >
-              Adicionar jogador
+              {isEditing
+                ? "Salvar alterações"
+                : "Adicionar jogador"}
             </button>
           </div>
         </form>
